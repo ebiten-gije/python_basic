@@ -50,3 +50,51 @@ def func_args (a, b, *args, **kwd):
 
 
 func_args(10, 20, 30, 40, 'a', option1='texas', option2='kw')
+
+
+print('------------------')
+
+# 함수도 객체 -> 함수의 인수로 전달될 수 있다.
+def plus(a, b):
+    return a+b
+
+
+def minus(a, b):
+    return a-b
+
+
+def calculator(a, b, func): # func -> 함수
+    if callable(func): # 넘어온 매개변수가 실행 가능한 객체인지 확인
+        return func(a, b)
+
+
+print(calculator(3, 7, plus))
+print(calculator(3, 7, minus))
+
+# 1회성으로 로직 전달하고자 할 때
+# 익명 함수 lambda 함수를 전달해줄 수 있다
+def clean_strings(strings, *funcs):
+    result = []
+    for str in strings:
+        for func in funcs:
+            if callable(func): # 넘어온 인자가 실행가능한 함수?
+                str = func(str)
+        result.append(str)
+    return result
+
+dirty_strings = ('python pROGrammiNg, JaVA ProGRammIng, winDows, LINux'
+                 .split(', '))
+print(dirty_strings)
+cleaned = clean_strings(dirty_strings, str.strip, str.title)
+print(cleaned)
+
+
+# lambda : 익명 함수..
+# 익명 함수를 이용한 키함수 정의
+strings = ("Life is too short, you need python"
+           .replace(",", "").lower().split())
+print(strings)
+
+# 문자열 길이 순으로 정렬
+sorted_str = sorted(strings, key=lambda x: len(x))
+print(sorted_str)
